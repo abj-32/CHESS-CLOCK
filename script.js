@@ -2,10 +2,10 @@ let playing = false;
 let currentPlayer = 1;
 const timerPanel = document.querySelector('.player');
 const buttons = document.querySelectorAll('.bttn');
+
 // Sound effects for project.
 //const timesUp = new Audio('audio/460133__eschwabe3__robot-affirmative.wav');
 //const click = new Audio('audio/561660__mattruthsound.wav');
-
 
 // Add a leading zero to numbers less than 10.
 const padZero = (number) => {
@@ -15,6 +15,8 @@ const padZero = (number) => {
     return number;
 }
 
+// Prompt the user for initial time in minutes.
+const initialTime = parseInt(prompt("Enter the initial time for both players (in minutes):"), 10);
 
 // Create a class for the timer.
 class Timer {
@@ -27,9 +29,12 @@ class Timer {
     }
 }
 
+// Set initial time for both players using user input.
+document.getElementById('min1').textContent = padZero(initialTime);
+document.getElementById('min2').textContent = padZero(initialTime);
+
 let p1time = new Timer('min1', document.getElementById('min1').textContent);
 let p2time = new Timer('min2', document.getElementById('min2').textContent);
-
 
 // Swap player's timer after a move (player1 = 1, player2 = 2).
 const swapPlayer = () => {
@@ -39,7 +44,6 @@ const swapPlayer = () => {
     // Play the click sound.
     //click.play();
 }
-
 
 // Warn player if time drops below thirty seconds.
 const timeWarning = (player, min, sec) => {
@@ -53,14 +57,13 @@ const timeWarning = (player, min, sec) => {
     }
 }
 
-
 // Start timer countdown to zero.
 const startTimer = () => {
     playing = true;
     let p1sec = 60;
     let p2sec = 60;
 
-    let timerId = setInterval(function() {
+    let timerId = setInterval(function () {
         // Player 1.
         if (currentPlayer === 1) {
             if (playing) {
@@ -87,7 +90,7 @@ const startTimer = () => {
                 }
             }
         } else {
-        // Player 2.
+            // Player 2.
             if (playing) {
                 p2time.minutes = parseInt(p2time.getMinutes('min2'), 10);
                 if (p2sec === 60) {
@@ -112,7 +115,6 @@ const startTimer = () => {
         }
     }, 1000);
 }
-
 
 // Listen for a mouse click or tap on the screen to toggle between timers.
 timerPanel.addEventListener('click', swapPlayer);
